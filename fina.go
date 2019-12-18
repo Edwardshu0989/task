@@ -123,8 +123,7 @@ func task() {
 			return
 		}
 		mapinfos := dast["data"].(map[string]interface{})
-		fmt.Println(count)
-		count, _ = mapinfos["count"].(int)
+		count = int(mapinfos["count"].(float64))
 	}
 	if count == 0 {
 		return
