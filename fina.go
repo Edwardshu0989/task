@@ -113,7 +113,22 @@ func main() {
 }
 
 func task() {
-	defaultDb.Model(Commodity{}).Count(&count)
+	// defaultDb.Model(Commodity{}).Count(&count)
+	if cts, err := FetchApi(0, 1); err != nil {
+		easyweb.Logger.Error("获取线上地址出错:%s", err.Error())
+	} else {
+		var dast map[string]interface{}
+		if err := json.Unmarshal(cts, &dast); err != nil {
+			easyweb.Logger.Error("解析线上地址信息出错:%s", err.Error())
+			return
+		}
+		mapinfos := dast["data"].(map[string]interface{})
+		fmt.Println(count)
+		count, _ = mapinfos["count"].(int)
+	}
+	if count == 0 {
+		return
+	}
 	for i := 0; i < count; i++ {
 		time.Sleep(1 * time.Minute)
 		page := i
