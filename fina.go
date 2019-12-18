@@ -15,11 +15,12 @@ import (
 
 	"github.com/chromedp/chromedp"
 	"github.com/gocolly/colly"
-	"github.com/jinzhu/gorm"
+
+	// "github.com/jinzhu/gorm"
 	"github.com/robfig/cron"
 	"github.com/yeeyuntech/yeego"
 	"gitlab.yeeyuntech.com/yee/easyweb"
-	"gitlab.yeeyuntech.com/yee/easyweb_cms"
+	// "gitlab.yeeyuntech.com/yee/easyweb_cms"
 )
 
 const (
@@ -60,7 +61,7 @@ func (Commodity) TableName() string {
 }
 
 var (
-	defaultDb     *gorm.DB // 默认数据库
+	// defaultDb     *gorm.DB // 默认数据库
 	code          int
 	count         int
 	redirect      string
@@ -82,26 +83,26 @@ func init() {
 		}
 	)
 	logger.InitLogger(logCfg)
-	dbConf := easyweb_cms.DbConfig{
-		UserName: yeego.Config.GetString("database.UserName"),
-		Password: yeego.Config.GetString("database.Password"),
-		Host:     yeego.Config.GetString("database.Host"),
-		Port:     yeego.Config.GetString("database.Port"),
-		DbName:   yeego.Config.GetString("database.DbName"),
-	}
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		dbConf.UserName, dbConf.Password, dbConf.Host, dbConf.Port, dbConf.DbName)
-	db, err := gorm.Open("mysql", dsn)
-	if err != nil {
-		easyweb.Logger.Error("数据库连接失败:%s", err.Error())
-	}
-	db.DB().SetMaxIdleConns(2000)
-	defaultDb = db
+	// dbConf := easyweb_cms.DbConfig{
+	// 	UserName: yeego.Config.GetString("database.UserName"),
+	// 	Password: yeego.Config.GetString("database.Password"),
+	// 	Host:     yeego.Config.GetString("database.Host"),
+	// 	Port:     yeego.Config.GetString("database.Port"),
+	// 	DbName:   yeego.Config.GetString("database.DbName"),
+	// }
+	// dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	// 	dbConf.UserName, dbConf.Password, dbConf.Host, dbConf.Port, dbConf.DbName)
+	// db, err := gorm.Open("mysql", dsn)
+	// if err != nil {
+	// 	easyweb.Logger.Error("数据库连接失败:%s", err.Error())
+	// }
+	// db.DB().SetMaxIdleConns(2000)
+	// defaultDb = db
 }
 
 func main() {
 	d := cron.New()
-	d.AddFunc("0 0/30 * * * *", task)
+	d.AddFunc("0 0/5 * * * *", task)
 	d.Start()
 	t1 := time.NewTimer(time.Minute * 1)
 	for {
@@ -128,7 +129,7 @@ func task() {
 	if count == 0 {
 		return
 	}
-	for i := 0; i < count; i++ {
+	for i := 1; i < count; i++ {
 		time.Sleep(1 * time.Minute)
 		page := i
 		pagesize := 1
@@ -198,7 +199,7 @@ func download(url string, commodity string) {
 	title, err := BrowserAccess(url)
 	if err != nil {
 		easyweb.Logger.Error("链接%s谷歌链接访问出错:%s", url, err.Error())
-		defaultDb.Model(Commodity{}).Where("name = ?", commodity).Update(Commodity{State: CommodityStateDown, Remark: "未在谷歌市场检测到APP"})
+		// defaultDb.Model(Commodity{}).Where("name = ?", commodity).Update(Commodity{State: CommodityStateDown, Remark: "未在谷歌市场检测到APP"})
 	} else {
 		easyweb.Logger.Error("111111链接%s谷歌链接访问成功:%s", url, title)
 		// if !strings.Contains(title, comName) {
