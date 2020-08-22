@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:5.7
+    entrypoint:
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL: 'test'
+      MYSQL_PASS: '123456'
+    restart: always
+    volumes:
+       -"./"
