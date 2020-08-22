@@ -3,13 +3,12 @@
 package dl
 
 import (
-	"awesomeProject/dao"
-	"awesomeProject/server"
 	"awesomeProject/service"
 	"github.com/google/wire"
 )
 
 func initApp() (*App, func(), error) {
-	panic(wire.Build(dao.Provider, dao.NewDB, service.New, server.New, NewApp))
+	//panic(wire.Build(dao.Provider, dao.NewDB, service.New, server.New, NewApp))
+	panic(wire.Build(service.New, NewApp))
 	return &App{}, nil, nil
 }

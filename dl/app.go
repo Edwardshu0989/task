@@ -1,19 +1,36 @@
 package dl
 
 import (
-	"awesomeProject/server"
 	"github.com/gin-gonic/gin"
 )
 
+//type App struct {
+//	h *gin.Engine
+//	s *server.Server
+//}
 type App struct {
 	h *gin.Engine
-	s *server.Server
+	//s *server.Server
 }
 
-func NewApp(h *gin.Engine, s *server.Server) (app *App, cf func(), err error) {
+//
+//func NewApp(h *gin.Engine, s *server.Server) (app *App, cf func(), err error) {
+//	app = &App{
+//		h: h,
+//		s: s,
+//	}
+//	cf = Close
+//	err = nil
+//	return
+//}
+//
+//func Close() {
+//
+//}
+
+func NewApp(h *gin.Engine) (app *App, cf func(), err error) {
 	app = &App{
 		h: h,
-		s: s,
 	}
 	cf = Close
 	err = nil

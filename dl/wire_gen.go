@@ -6,8 +6,6 @@
 package dl
 
 import (
-	"awesomeProject/dao"
-	"awesomeProject/server"
 	"awesomeProject/service"
 )
 
@@ -18,26 +16,11 @@ func InitApp() (*App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	db, cleanup, err := dao.New()
+	app, cleanup, err := NewApp(engine)
 	if err != nil {
-		return nil, nil, err
-	}
-	client, cleanup2, err := dao.NewRedis()
-	if err != nil {
-		cleanup()
-		return nil, nil, err
-	}
-	daoDao := dao.NewDB(db, client)
-	serverServer := server.New(daoDao)
-	app, cleanup3, err := NewApp(engine, serverServer)
-	if err != nil {
-		cleanup2()
-		cleanup()
 		return nil, nil, err
 	}
 	return app, func() {
-		cleanup3()
-		cleanup2()
 		cleanup()
 	}, nil
 }
