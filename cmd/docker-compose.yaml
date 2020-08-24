@@ -9,4 +9,8 @@ services:
       MYSQL_PASS: '123456'
     restart: always
     volumes:
-       -"./"
+       - "./db:/var/lib/mysql"
+       - "./conf/my.cnf:/etc/my.cnf"
+       - "./init:/docker-entrypoint-initdb.d/"
+    ports:
+       - "3306:3306"
