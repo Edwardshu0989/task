@@ -4,6 +4,8 @@ WORKDIR /usr/src/test-server
 
 COPY . .
 
+RUN chmod +x ./awesomeProject
+
 EXPOSE 8081
 
 ENTRYPOINT ["./awesomeProject"]

@@ -24,10 +24,10 @@ services:
       restart: always
       networks:
         - awesomeProject
-      volumes_from:
+      volumes:
         - "./config.yml:/config.yaml"
       ports:
-        - "8081:8081"
+        - "8082:8082"
   redis:
       image: redis:latest
       hostname: redis
@@ -43,4 +43,4 @@ services:
          redis-server /etc/redis/redis.conf
 
 networks:
-  awesomeProject
+  awesomeProject:

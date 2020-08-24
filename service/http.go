@@ -1,6 +1,7 @@
 package service
 
 import (
+	"awesomeProject/config"
 	"awesomeProject/resultdata"
 	v1 "awesomeProject/server"
 	"github.com/gin-gonic/gin"
@@ -19,7 +20,7 @@ func New(v *v1.Server) (engine *gin.Engine, err error) {
 	// 初始化路由
 	initRouter(engine)
 	srv = v
-	err = engine.Run(":8081")
+	err = engine.Run(config.Env.ListenAddr)
 	return
 }
 

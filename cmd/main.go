@@ -2,6 +2,7 @@ package main
 
 import (
 	Alog "awesomeProject/Log"
+	"awesomeProject/config"
 	"awesomeProject/dl"
 	"fmt"
 	"github.com/prometheus/common/log"
@@ -13,6 +14,7 @@ import (
 
 func main() {
 	Alog.Info("log init")
+	fmt.Println(config.Env.ListenAddr)
 	_, closeFunc, err := dl.InitApp()
 	if err != nil {
 		panic(fmt.Errorf("init err %s", err.Error()))
