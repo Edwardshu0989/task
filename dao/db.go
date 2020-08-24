@@ -3,7 +3,14 @@ package dao
 import (
 	"awesomeProject/Log"
 	"awesomeProject/config"
+	"awesomeProject/model"
 	"github.com/jinzhu/gorm"
+)
+
+var (
+	models = []interface{}{
+		&model.Product{},
+	}
 )
 
 func New() (db *gorm.DB, cf func(), err error) {
@@ -13,5 +20,14 @@ func New() (db *gorm.DB, cf func(), err error) {
 	}
 	cf = func() { defer db.Close() }
 	return
+}
 
+// 检查如果表不存在则创建
+func (dao *Db) CreateTable() {
+	for _, model := range models {
+		//if !dao.db.HasTable(model) {
+		//	dao.db.CreateTable(model)
+		//}
+		dao.db.AutoMigrate(model)
+	}
 }

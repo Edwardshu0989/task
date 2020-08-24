@@ -14,10 +14,6 @@ import (
 // Injectors from wire.go:
 
 func InitApp() (*App, func(), error) {
-	engine, err := service.New()
-	if err != nil {
-		return nil, nil, err
-	}
 	db, cleanup, err := dao.New()
 	if err != nil {
 		return nil, nil, err
@@ -29,6 +25,12 @@ func InitApp() (*App, func(), error) {
 	}
 	daoDao := dao.NewDB(db, client)
 	serverServer := server.New(daoDao)
+	engine, err := service.New(serverServer)
+	if err != nil {
+		cleanup2()
+		cleanup()
+		return nil, nil, err
+	}
 	app, cleanup3, err := NewApp(engine, serverServer)
 	if err != nil {
 		cleanup2()
