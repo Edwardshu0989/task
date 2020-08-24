@@ -8,7 +8,10 @@ import (
 var Env *config
 
 type config struct {
-	DSN string
+	DSN     string
+	DB_HOST string
+	DB_USER string
+	DB_PWD  string
 }
 
 func init() {

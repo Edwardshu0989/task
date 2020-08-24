@@ -3,14 +3,44 @@ version: "3"
 services:
   db:
     image: mysql:5.7
-    entrypoint:
+    environment:
       MYSQL_ROOT_PASSWORD: "123456"
       MYSQL: 'test'
       MYSQL_PASS: '123456'
     restart: always
+    networks:
+      - awesomeProject
     volumes:
        - "./db:/var/lib/mysql"
        - "./conf/my.cnf:/etc/my.cnf"
        - "./init:/docker-entrypoint-initdb.d/"
     ports:
        - "3306:3306"
+  testserver:
+      depends_on:
+        - db
+        - redis
+      image: hanjunshuai/test:latest
+      restart: always
+      networks:
+        - awesomeProject
+      volumes_from:
+        - "./config.yml:/config.yaml"
+      ports:
+        - "8080:8080"
+  redis:
+      image: redis:latest
+      hostname: redis
+      restart: always
+      networks:
+        - awesomeProject
+      ports:
+        - "6379:6379"
+      volumes:
+         - "./conf/redis.conf:/etc/redis/redis.conf:rw"
+         - "./data:/data:rw"
+      command:
+         redis-server /etc/redis/redis.conf
+
+networks:
+  awesomeProject
