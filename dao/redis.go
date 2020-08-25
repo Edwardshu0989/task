@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"awesomeProject/config"
 	"fmt"
 	"github.com/go-redis/redis"
 	"github.com/prometheus/common/log"
@@ -9,7 +10,7 @@ import (
 
 func NewRedis() (r *redis.Client, cf func(), err error) {
 	r = redis.NewClient(&redis.Options{
-		Addr:     "127.0.0.1:6379",
+		Addr:     config.Env.RedisAddr,
 		Password: "",
 		DB:       0,
 	})

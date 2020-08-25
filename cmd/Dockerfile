@@ -6,6 +6,6 @@ COPY . .
 
 RUN chmod +x ./awesomeProject
 
-EXPOSE 8081
+EXPOSE 8082
 
 ENTRYPOINT ["./awesomeProject"]

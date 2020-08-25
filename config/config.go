@@ -10,6 +10,7 @@ var Env *config
 type config struct {
 	DSN        string
 	ListenAddr string
+	RedisAddr  string
 }
 
 func init() {
